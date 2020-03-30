@@ -1,1 +1,4 @@
 rootProject.name = 'sei-dashboard'
+include 'sei-dashboard-api'
+include 'sei-dashboard-service'
+
