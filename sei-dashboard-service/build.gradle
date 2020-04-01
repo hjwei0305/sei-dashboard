@@ -23,9 +23,8 @@ dependencies {
     compile("mysql:mysql-connector-java:$mysqlVersion")
 
     // 测试依赖包
-    testCompile(
-            "com.changhong.sei:sei-test-starter:$sei_version"
-    )
+//    compile("com.changhong.sei:sei-test-starter:$sei_version")
+    testCompile("com.changhong.sei:sei-test-starter:$sei_version")
 }
 
 // 默认application文件中的配置从配置中心获取
