@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 /**
- * 组件实例分组(WidgetGroup)表服务实现类
+ * 组件实例分组(WidgetGroup)业务逻辑
  *
  * @author sei
  * @since 2020-04-01 14:02:35
