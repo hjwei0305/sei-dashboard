@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 实例应用场景(Scene)DTO类
@@ -47,6 +48,11 @@ private static final long serialVersionUID = -27992274717305368L;
     @ApiModelProperty(value = "组件实例Id清单", required = true)
     private String widgetInstanceIds;
 
+    /**
+     * 组件实例DTO清单
+     */
+    @ApiModelProperty("组件实例DTO清单")
+    private List<WidgetInstanceDto> instanceDtos;
         
     public String getCode() {
         return code;
@@ -80,4 +86,11 @@ private static final long serialVersionUID = -27992274717305368L;
         this.widgetInstanceIds = widgetInstanceIds;
     }
 
+    public List<WidgetInstanceDto> getInstanceDtos() {
+        return instanceDtos;
+    }
+
+    public void setInstanceDtos(List<WidgetInstanceDto> instanceDtos) {
+        this.instanceDtos = instanceDtos;
+    }
 }

@@ -1,11 +1,20 @@
 package com.changhong.sei.dashboard.service;
 
+import com.changhong.sei.core.util.JsonUtils;
+import com.changhong.sei.dashboard.dao.WidgetInstanceDao;
+import com.changhong.sei.dashboard.dto.SceneDto;
 import com.changhong.sei.dashboard.entity.Scene;
 import com.changhong.sei.dashboard.dao.SceneDao;
 import com.changhong.sei.core.dao.BaseEntityDao;
 import com.changhong.sei.core.service.BaseEntityService;
+import com.changhong.sei.dashboard.entity.WidgetInstance;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -18,6 +27,8 @@ import org.springframework.stereotype.Service;
 public class SceneService extends BaseEntityService<Scene> {
     @Autowired
     private SceneDao dao;
+    @Autowired
+    private WidgetInstanceDao widgetInstanceDao;
 
     @Override
     protected BaseEntityDao<Scene> getDao() {
@@ -31,5 +42,25 @@ public class SceneService extends BaseEntityService<Scene> {
      */
     public Scene findByCode(String code) {
         return dao.findByCode(code);
+    }
+
+    /**
+     * 通过场景获取使用的实例清单
+     * @param sceneDto 场景DTO
+     * @return 实例清单
+     */
+    public List<WidgetInstance> getWidgetInstances(SceneDto sceneDto) {
+        List<WidgetInstance> instances = new ArrayList<>();
+        if (StringUtils.isBlank(sceneDto.getWidgetInstanceIds())) {
+            String json = sceneDto.getWidgetInstanceIds();
+            List<String> instanceIds = JsonUtils.fromJson2List(json, String.class);
+            instanceIds.forEach( id-> {
+                WidgetInstance instance = widgetInstanceDao.findOne(id);
+                if (Objects.nonNull(instance)) {
+                    instances.add(instance);
+                }
+            });
+        }
+        return instances;
     }
 }

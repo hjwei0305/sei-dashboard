@@ -20,9 +20,9 @@ public class SceneControllerTest extends BaseUnitTest {
     private SceneController controller;
 
     @Test
-    public void findOne() {
-        String id = "";
-        ResultData<SceneDto> resultData = controller.findOne(id);
+    public void findByCode() {
+        String code = "";
+        ResultData<SceneDto> resultData = controller.findByCode(code);
         LOG.debug(JsonUtils.toJson(resultData));
         Assert.assertTrue(resultData.successful());
     }
