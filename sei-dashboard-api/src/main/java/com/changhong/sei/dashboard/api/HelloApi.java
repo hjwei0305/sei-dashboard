@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author 王锦光 wangj
  * @version 1.0.1 2017-10-23 17:14
  */
-@FeignClient(name = "sei-dashboard", path = "hello")
+@FeignClient(name = "sei-dashboard", path = "dashboardHello")
 public interface HelloApi {
     /**
      * say hello

@@ -71,6 +71,18 @@ private static final long serialVersionUID = -75529789008922660L;
     private String widgetTypeName;
 
     /**
+     * 组件类型描述
+     */
+    @ApiModelProperty("组件类型描述")
+    private String widgetTypeDescription;
+
+    /**
+     * 组件类型图标类型
+     */
+    @ApiModelProperty("组件类型图标类型")
+    private String widgetTypeIconType;
+
+    /**
      * 实例分组代码
      */
     @ApiModelProperty("实例分组代码")
@@ -144,6 +156,22 @@ private static final long serialVersionUID = -75529789008922660L;
 
     public void setWidgetTypeName(String widgetTypeName) {
         this.widgetTypeName = widgetTypeName;
+    }
+
+    public String getWidgetTypeDescription() {
+        return widgetTypeDescription;
+    }
+
+    public void setWidgetTypeDescription(String widgetTypeDescription) {
+        this.widgetTypeDescription = widgetTypeDescription;
+    }
+
+    public String getWidgetTypeIconType() {
+        return widgetTypeIconType;
+    }
+
+    public void setWidgetTypeIconType(String widgetTypeIconType) {
+        this.widgetTypeIconType = widgetTypeIconType;
     }
 
     public String getWidgetGroupCode() {
