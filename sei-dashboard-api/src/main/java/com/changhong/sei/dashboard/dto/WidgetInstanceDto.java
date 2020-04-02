@@ -38,6 +38,13 @@ private static final long serialVersionUID = -75529789008922660L;
     @ApiModelProperty(value = "组件类型ID", required = true)
     private String widgetTypeId;
     /**
+     * 实例分组ID
+     */
+    @NotBlank
+    @Size(max = 36)
+    @ApiModelProperty(value = "实例分组ID", required = true)
+    private String widgetGroupId;
+    /**
      * 图标颜色
      */
     @NotBlank
@@ -62,7 +69,19 @@ private static final long serialVersionUID = -75529789008922660L;
      */
     @ApiModelProperty("组件类型名称")
     private String widgetTypeName;
-        
+
+    /**
+     * 实例分组代码
+     */
+    @ApiModelProperty("实例分组代码")
+    private String widgetGroupCode;
+
+    /**
+     * 实例分组名称
+     */
+    @ApiModelProperty("实例分组名称")
+    private String widgetGroupName;
+
     public String getName() {
         return name;
     }
@@ -86,7 +105,15 @@ private static final long serialVersionUID = -75529789008922660L;
     public void setWidgetTypeId(String widgetTypeId) {
         this.widgetTypeId = widgetTypeId;
     }
-        
+
+    public String getWidgetGroupId() {
+        return widgetGroupId;
+    }
+
+    public void setWidgetGroupId(String widgetGroupId) {
+        this.widgetGroupId = widgetGroupId;
+    }
+
     public String getIconColor() {
         return iconColor;
     }
@@ -117,5 +144,21 @@ private static final long serialVersionUID = -75529789008922660L;
 
     public void setWidgetTypeName(String widgetTypeName) {
         this.widgetTypeName = widgetTypeName;
+    }
+
+    public String getWidgetGroupCode() {
+        return widgetGroupCode;
+    }
+
+    public void setWidgetGroupCode(String widgetGroupCode) {
+        this.widgetGroupCode = widgetGroupCode;
+    }
+
+    public String getWidgetGroupName() {
+        return widgetGroupName;
+    }
+
+    public void setWidgetGroupName(String widgetGroupName) {
+        this.widgetGroupName = widgetGroupName;
     }
 }

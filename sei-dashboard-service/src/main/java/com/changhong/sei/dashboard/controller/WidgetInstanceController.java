@@ -27,7 +27,8 @@ import java.util.stream.Collectors;
 @RestController
 @Api(value = "WidgetInstanceApi", tags = "组件实例服务")
 @RequestMapping(path = "widgetInstance", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class WidgetInstanceController extends BaseEntityController<WidgetInstance, WidgetInstanceDto> implements WidgetInstanceApi {
+public class WidgetInstanceController extends BaseEntityController<WidgetInstance, WidgetInstanceDto>
+        implements WidgetInstanceApi {
     /**
      * 组件实例服务对象
      */
@@ -66,6 +67,7 @@ public class WidgetInstanceController extends BaseEntityController<WidgetInstanc
             protected void configure() {
                 // 自定义转换规则
                 map().setWidgetTypeId(source.getWidgetTypeId());
+                map().setWidgetGroupId(source.getWidgetGroupId());
             }
         };
         // 添加映射器
@@ -88,6 +90,19 @@ public class WidgetInstanceController extends BaseEntityController<WidgetInstanc
     }
 
     /**
+     * 通过实例分组获取组件实例清单
+     *
+     * @param widgetGroupId 实例分组Id
+     * @return 实例清单
+     */
+    @Override
+    public ResultData<List<WidgetInstanceDto>> getByWidgetGroup(String widgetGroupId) {
+        List<WidgetInstance> instances = service.getByWidgetGroup(widgetGroupId);
+        List<WidgetInstanceDto> data = instances.stream().map(this::convertToDtoWithoutContent).collect(Collectors.toList());
+        return ResultData.success(data);
+    }
+
+    /**
      * 将数据实体转换成DTO（不含内容属性）
      *
      * @param entity 业务实体
@@ -104,6 +119,7 @@ public class WidgetInstanceController extends BaseEntityController<WidgetInstanc
             protected void configure() {
                 // 自定义转换规则
                 map().setWidgetTypeId(source.getWidgetTypeId());
+                map().setWidgetGroupId(source.getWidgetGroupId());
                 skip(destination.getRenderConfig());
             }
         };

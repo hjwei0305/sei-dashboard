@@ -35,4 +35,14 @@ public class WidgetInstanceService extends BaseEntityService<WidgetInstance> {
     public List<WidgetInstance> getByWidgetType(String widgetTypeId) {
         return dao.findByWidgetTypeId(widgetTypeId);
     }
+
+    /**
+     * 通过实例分组获取组件实例清单
+     *
+     * @param widgetGroupId 实例分组Id
+     * @return 实例清单
+     */
+    public List<WidgetInstance> getByWidgetGroup(String widgetGroupId) {
+        return dao.findByWidgetGroupId(widgetGroupId);
+    }
 }

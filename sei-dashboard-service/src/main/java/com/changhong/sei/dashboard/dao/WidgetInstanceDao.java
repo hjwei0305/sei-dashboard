@@ -21,4 +21,12 @@ public interface WidgetInstanceDao extends BaseEntityDao<WidgetInstance> {
      * @return 实例清单
      */
     List<WidgetInstance> findByWidgetTypeId(String widgetTypeId);
+
+    /**
+     * 通过实例分组获取组件实例清单
+     *
+     * @param widgetGroupId 实例分组Id
+     * @return 实例清单
+     */
+    List<WidgetInstance> findByWidgetGroupId(String widgetGroupId);
 }

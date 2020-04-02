@@ -27,4 +27,13 @@ public interface WidgetInstanceApi extends BaseEntityApi<WidgetInstanceDto> {
     @GetMapping(path = "getByWidgetType")
     @ApiOperation(value = "通过组件类型获取其实例清单", notes = "通过组件类型Id获取实现了此组件类型的实例清单")
     ResultData<List<WidgetInstanceDto>> getByWidgetType(@RequestParam("widgetTypeId") String widgetTypeId);
+
+    /**
+     * 通过实例分组获取组件实例清单
+     * @param widgetGroupId 实例分组Id
+     * @return 实例清单
+     */
+    @GetMapping(path = "getByWidgetGroup")
+    @ApiOperation(value = "通过实例分组获取组件实例清单", notes = "通过实例分组Id获取此分组的组件实例清单")
+    ResultData<List<WidgetInstanceDto>> getByWidgetGroup(@RequestParam("widgetGroupId") String widgetGroupId);
 }

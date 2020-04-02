@@ -35,11 +35,22 @@ public class WidgetInstance extends BaseAuditableEntity implements Serializable 
     @Column(name = "widget_type_id", length = 36, nullable = false)
     private String widgetTypeId;
     /**
-     * 功能项组
+     * 组件类型
      */
     @ManyToOne
     @JoinColumn(name = "widget_type_id", nullable = false, insertable = false, updatable = false)
     private WidgetType widgetType;
+    /**
+     * 实例分组ID
+     */
+    @Column(name = "widget_group_id", length = 36, nullable = false)
+    private String widgetGroupId;
+    /**
+     * 实例分组
+     */
+    @ManyToOne
+    @JoinColumn(name = "widget_group_id", nullable = false, insertable = false, updatable = false)
+    private WidgetGroup widgetGroup;
     /**
      * 图标颜色
      */
@@ -83,6 +94,22 @@ public class WidgetInstance extends BaseAuditableEntity implements Serializable 
 
     public void setWidgetType(WidgetType widgetType) {
         this.widgetType = widgetType;
+    }
+
+    public String getWidgetGroupId() {
+        return widgetGroupId;
+    }
+
+    public void setWidgetGroupId(String widgetGroupId) {
+        this.widgetGroupId = widgetGroupId;
+    }
+
+    public WidgetGroup getWidgetGroup() {
+        return widgetGroup;
+    }
+
+    public void setWidgetGroup(WidgetGroup widgetGroup) {
+        this.widgetGroup = widgetGroup;
     }
 
     public String getIconColor() {
