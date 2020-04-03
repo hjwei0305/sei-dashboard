@@ -4,6 +4,8 @@ import com.changhong.sei.core.dto.BaseEntityDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -33,6 +35,18 @@ public class WidgetInstanceTree extends BaseEntityDto {
     private Integer level= 0;
 
     /**
+     * 图标颜色
+     */
+    @ApiModelProperty(value = "图标颜色")
+    private String iconColor;
+
+    /**
+     * 组件类型图标类型
+     */
+    @ApiModelProperty("组件类型图标类型")
+    private String widgetTypeIconType;
+
+    /**
      * 子节点
      */
     @ApiModelProperty(value = "子节点")
@@ -60,6 +74,22 @@ public class WidgetInstanceTree extends BaseEntityDto {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public String getIconColor() {
+        return iconColor;
+    }
+
+    public void setIconColor(String iconColor) {
+        this.iconColor = iconColor;
+    }
+
+    public String getWidgetTypeIconType() {
+        return widgetTypeIconType;
+    }
+
+    public void setWidgetTypeIconType(String widgetTypeIconType) {
+        this.widgetTypeIconType = widgetTypeIconType;
     }
 
     public List<WidgetInstanceTree> getChildren() {

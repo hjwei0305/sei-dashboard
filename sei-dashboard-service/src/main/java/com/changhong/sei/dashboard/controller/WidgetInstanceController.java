@@ -134,6 +134,8 @@ public class WidgetInstanceController extends BaseEntityController<WidgetInstanc
                 node.setLevel(1);
                 node.setName(i.getName());
                 node.setDescription(i.getDescription());
+                node.setIconColor(i.getIconColor());
+                node.setWidgetTypeIconType(i.getWidgetType().getIconType());
                 children.add(node);
             });
             trees.add(root);
