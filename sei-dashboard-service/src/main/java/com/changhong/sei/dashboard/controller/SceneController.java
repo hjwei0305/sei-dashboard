@@ -56,6 +56,8 @@ public class SceneController extends BaseEntityController<Scene, SceneDto> imple
     public ResultData<SceneSaveDto> saveScene(@Valid SceneSaveDto dto) {
         // 转换为DTO
         SceneDto sceneDto = getModelMapper().map(dto, SceneDto.class);
+        sceneDto.setConfig("");
+        sceneDto.setWidgetInstanceIds("");
         ResultData<SceneDto> saveResult = super.save(sceneDto);
         if (saveResult.failed()) {
             return ResultData.fail(saveResult.getMessage());
@@ -81,17 +83,6 @@ public class SceneController extends BaseEntityController<Scene, SceneDto> imple
         scene.setConfig(dto.getConfig());
         scene.setWidgetInstanceIds(dto.getWidgetInstanceIds());
         return ResultDataUtil.convertFromOperateResult(service.save(scene), null);
-    }
-
-    /**
-     * 保存业务实体
-     *
-     * @param dto 业务实体DTO
-     * @return 操作结果
-     */
-    @Override
-    public ResultData<SceneDto> save(SceneDto dto) {
-        throw new ServiceException("保存业务实体的基类方法禁止使用！");
     }
 
     /**
