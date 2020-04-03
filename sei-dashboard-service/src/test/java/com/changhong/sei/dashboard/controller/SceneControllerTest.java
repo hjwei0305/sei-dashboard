@@ -26,4 +26,12 @@ public class SceneControllerTest extends BaseUnitTest {
         LOG.debug(JsonUtils.toJson(resultData));
         Assert.assertTrue(resultData.successful());
     }
+
+    @Test
+    public void findOne() {
+        String id = "C137FB6E-757B-11EA-A285-0242C0A84611";
+        ResultData<SceneDto> resultData = controller.findOne(id);
+        LOG.debug(JsonUtils.toJson(resultData));
+        Assert.assertTrue(resultData.successful());
+    }
 }

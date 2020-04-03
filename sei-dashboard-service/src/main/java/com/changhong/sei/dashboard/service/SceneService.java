@@ -51,7 +51,7 @@ public class SceneService extends BaseEntityService<Scene> {
      */
     public List<WidgetInstance> getWidgetInstances(SceneDto sceneDto) {
         List<WidgetInstance> instances = new ArrayList<>();
-        if (StringUtils.isBlank(sceneDto.getWidgetInstanceIds())) {
+        if (StringUtils.isNotBlank(sceneDto.getWidgetInstanceIds())) {
             String json = sceneDto.getWidgetInstanceIds();
             List<String> instanceIds = JsonUtils.fromJson2List(json, String.class);
             instanceIds.forEach( id-> {

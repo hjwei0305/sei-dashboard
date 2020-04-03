@@ -105,6 +105,27 @@ public class SceneController extends BaseEntityController<Scene, SceneDto> imple
     @Override
     public ResultData<SceneDto> findByCode(String code) {
         SceneDto sceneDto = convertToDto(service.findByCode(code));
+        return getSceneDtoResultData(sceneDto);
+    }
+
+    /**
+     * 通过Id获取一个业务实体
+     *
+     * @param id 业务实体Id
+     * @return 业务实体
+     */
+    @Override
+    public ResultData<SceneDto> findOne(String id) {
+        SceneDto sceneDto = convertToDto(service.findOne(id));
+        return getSceneDtoResultData(sceneDto);
+    }
+
+    /**
+     * 获取并设置场景使用的实例清单
+     * @param sceneDto 场景DTO
+     * @return 处理结果
+     */
+    private ResultData<SceneDto> getSceneDtoResultData(SceneDto sceneDto) {
         if (Objects.nonNull(sceneDto)) {
             // 获取实例清单
             List<WidgetInstance> instances = service.getWidgetInstances(sceneDto);

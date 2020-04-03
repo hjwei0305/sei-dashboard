@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,6 +50,18 @@ private static final long serialVersionUID = -27992274717305368L;
     private String widgetInstanceIds;
 
     /**
+     * 最后修改人
+     */
+    @ApiModelProperty(value = "最后修改人")
+    protected String lastEditorName;
+
+    /**
+     * 最后修改时间
+     */
+    @ApiModelProperty(value = "最后修改时间")
+    protected Date lastEditedDate;
+
+    /**
      * 组件实例DTO清单
      */
     @ApiModelProperty("组件实例DTO清单")
@@ -84,6 +97,22 @@ private static final long serialVersionUID = -27992274717305368L;
 
     public void setWidgetInstanceIds(String widgetInstanceIds) {
         this.widgetInstanceIds = widgetInstanceIds;
+    }
+
+    public String getLastEditorName() {
+        return lastEditorName;
+    }
+
+    public void setLastEditorName(String lastEditorName) {
+        this.lastEditorName = lastEditorName;
+    }
+
+    public Date getLastEditedDate() {
+        return lastEditedDate;
+    }
+
+    public void setLastEditedDate(Date lastEditedDate) {
+        this.lastEditedDate = lastEditedDate;
     }
 
     public List<WidgetInstanceDto> getInstanceDtos() {
