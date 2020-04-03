@@ -53,6 +53,16 @@ public interface SceneApi extends FindAllApi<SceneDto> {
     ResultData<?> delete(@PathVariable("id") String id);
 
     /**
+     * 通过Id获取一个实例应用场景
+     *
+     * @param id 业务实体Id
+     * @return 应用场景
+     */
+    @GetMapping(path = "findOne")
+    @ApiOperation(value = "通过Id获取一个实例应用场景", notes = "通过Id获取一个实例应用场景")
+    ResultData<SceneDto> findOne(@RequestParam("id") String id);
+
+    /**
      * 通过代码获取一个实例应用场景
      * @param code 代码
      * @return 实例应用场景
