@@ -3,7 +3,10 @@ package com.changhong.sei.dashboard.controller;
 import com.changhong.sei.core.dto.ResultData;
 import com.changhong.sei.dashboard.api.WidgetInstanceApi;
 import com.changhong.sei.dashboard.dto.WidgetInstanceDto;
+import com.changhong.sei.dashboard.dto.WidgetInstanceTree;
+import com.changhong.sei.dashboard.entity.WidgetGroup;
 import com.changhong.sei.dashboard.entity.WidgetInstance;
+import com.changhong.sei.dashboard.service.WidgetGroupService;
 import com.changhong.sei.dashboard.service.WidgetInstanceService;
 import com.changhong.sei.core.controller.BaseEntityController;
 import com.changhong.sei.core.service.BaseEntityService;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.swagger.annotations.Api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -34,6 +38,8 @@ public class WidgetInstanceController extends BaseEntityController<WidgetInstanc
      */
     @Autowired
     private WidgetInstanceService service;
+    @Autowired
+    private WidgetGroupService widgetGroupService;
 
     @Override
     public BaseEntityService<WidgetInstance> getService() {
@@ -100,6 +106,39 @@ public class WidgetInstanceController extends BaseEntityController<WidgetInstanc
         List<WidgetInstance> instances = service.getByWidgetGroup(widgetGroupId);
         List<WidgetInstanceDto> data = instances.stream().map(this::convertToDtoWithoutContent).collect(Collectors.toList());
         return ResultData.success(data);
+    }
+
+    /**
+     * 获取组件实例树形结构
+     *
+     * @return 组件实例树
+     */
+    @Override
+    public ResultData<List<WidgetInstanceTree>> getWidgetInstanceTrees() {
+        List<WidgetInstanceTree> trees = new ArrayList<>();
+        // 获取所有分组
+        List<WidgetGroup> groups = widgetGroupService.findAll();
+        groups.forEach(g-> {
+            WidgetInstanceTree root = new WidgetInstanceTree();
+            root.setId(g.getId());
+            root.setLevel(0);
+            root.setName(g.getName());
+            root.setDescription(g.getDescription());
+            List<WidgetInstanceTree> children = new ArrayList<>();
+            root.setChildren(children);
+            // 获取分组下的实例
+            List<WidgetInstance> instances = service.getByWidgetGroup(g.getId());
+            instances.forEach(i-> {
+                WidgetInstanceTree node = new WidgetInstanceTree();
+                node.setId(i.getId());
+                node.setLevel(1);
+                node.setName(i.getName());
+                node.setDescription(i.getDescription());
+                children.add(node);
+            });
+            trees.add(root);
+        });
+        return ResultData.success(trees);
     }
 
     /**

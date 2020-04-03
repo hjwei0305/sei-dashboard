@@ -4,6 +4,7 @@ import com.changhong.sei.core.dto.ResultData;
 import com.changhong.sei.core.test.BaseUnitTest;
 import com.changhong.sei.core.util.JsonUtils;
 import com.changhong.sei.dashboard.dto.WidgetInstanceDto;
+import com.changhong.sei.dashboard.dto.WidgetInstanceTree;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,13 @@ public class WidgetInstanceControllerTest extends BaseUnitTest {
     public void getByWidgetGroup() {
         String widgetGroupId = "7D89006F-73FA-11EA-A4D9-0242C0A84611";
         ResultData<List<WidgetInstanceDto>> resultData = controller.getByWidgetGroup(widgetGroupId);
+        LOG.debug(JsonUtils.toJson(resultData));
+        Assert.assertTrue(resultData.successful());
+    }
+
+    @Test
+    public void getWidgetInstanceTrees() {
+        ResultData<List<WidgetInstanceTree>> resultData = controller.getWidgetInstanceTrees();
         LOG.debug(JsonUtils.toJson(resultData));
         Assert.assertTrue(resultData.successful());
     }

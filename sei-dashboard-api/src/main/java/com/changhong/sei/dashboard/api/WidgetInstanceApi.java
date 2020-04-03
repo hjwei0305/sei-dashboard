@@ -3,6 +3,7 @@ package com.changhong.sei.dashboard.api;
 import com.changhong.sei.core.dto.ResultData;
 import com.changhong.sei.dashboard.dto.WidgetInstanceDto;
 import com.changhong.sei.core.api.BaseEntityApi;
+import com.changhong.sei.dashboard.dto.WidgetInstanceTree;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -36,4 +37,12 @@ public interface WidgetInstanceApi extends BaseEntityApi<WidgetInstanceDto> {
     @GetMapping(path = "getByWidgetGroup")
     @ApiOperation(value = "通过实例分组获取组件实例清单", notes = "通过实例分组Id获取此分组的组件实例清单")
     ResultData<List<WidgetInstanceDto>> getByWidgetGroup(@RequestParam("widgetGroupId") String widgetGroupId);
+
+    /**
+     * 获取组件实例树形结构
+     * @return 组件实例树
+     */
+    @GetMapping(path = "getWidgetInstanceTrees")
+    @ApiOperation(value = "获取组件实例树形结构", notes = "获取组件实例树形结构，根节点为组件实例分组")
+    ResultData<List<WidgetInstanceTree>> getWidgetInstanceTrees();
 }
