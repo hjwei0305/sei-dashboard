@@ -39,13 +39,13 @@ private static final long serialVersionUID = -27992274717305368L;
      * 场景配置
      */
     @NotBlank
-    @ApiModelProperty(value = "场景配置", required = true)
+    @ApiModelProperty(value = "场景配置")
     private String config;
     /**
      * 组件实例Id清单
      */
     @NotBlank
-    @ApiModelProperty(value = "组件实例Id清单", required = true)
+    @ApiModelProperty(value = "组件实例Id清单")
     private String widgetInstanceIds;
 
     /**

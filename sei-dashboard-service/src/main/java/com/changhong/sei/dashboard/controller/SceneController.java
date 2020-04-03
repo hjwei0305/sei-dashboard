@@ -1,14 +1,18 @@
 package com.changhong.sei.dashboard.controller;
 
 import com.changhong.sei.core.dto.ResultData;
+import com.changhong.sei.core.utils.ResultDataUtil;
 import com.changhong.sei.dashboard.api.SceneApi;
+import com.changhong.sei.dashboard.dto.SceneConfigDto;
 import com.changhong.sei.dashboard.dto.SceneDto;
+import com.changhong.sei.dashboard.dto.SceneSaveDto;
 import com.changhong.sei.dashboard.dto.WidgetInstanceDto;
 import com.changhong.sei.dashboard.entity.Scene;
 import com.changhong.sei.dashboard.entity.WidgetInstance;
 import com.changhong.sei.dashboard.service.SceneService;
 import com.changhong.sei.core.controller.BaseEntityController;
 import com.changhong.sei.core.service.BaseEntityService;
+import com.changhong.sei.exception.ServiceException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.http.MediaType;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.swagger.annotations.Api;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -39,6 +44,65 @@ public class SceneController extends BaseEntityController<Scene, SceneDto> imple
     @Override
     public BaseEntityService<Scene> getService() {
         return service;
+    }
+
+    /**
+     * 保存业务实体
+     *
+     * @param dto 业务实体DTO
+     * @return 操作结果
+     */
+    @Override
+    public ResultData<SceneSaveDto> saveScene(@Valid SceneSaveDto dto) {
+        // 转换为DTO
+        SceneDto sceneDto = getModelMapper().map(dto, SceneDto.class);
+        ResultData<SceneDto> saveResult = super.save(sceneDto);
+        if (saveResult.failed()) {
+            return ResultData.fail(saveResult.getMessage());
+        }
+        SceneSaveDto saveDto = getModelMapper().map(saveResult.getData(), SceneSaveDto.class);
+        return ResultData.success(saveDto);
+    }
+
+    /**
+     * 保存场景的配置信息
+     *
+     * @param dto 场景配置DTO
+     * @return 操作结果
+     */
+    @Override
+    public ResultData<?> saveConfig(@Valid SceneConfigDto dto) {
+        // 获取一个场景
+        Scene scene = service.findOne(dto.getId());
+        if (Objects.isNull(scene)) {
+            // 需要保存配置信息的场景不存在！
+            return ResultDataUtil.fail("00002");
+        }
+        scene.setConfig(dto.getConfig());
+        scene.setWidgetInstanceIds(dto.getWidgetInstanceIds());
+        return ResultDataUtil.convertFromOperateResult(service.save(scene), null);
+    }
+
+    /**
+     * 保存业务实体
+     *
+     * @param dto 业务实体DTO
+     * @return 操作结果
+     */
+    @Override
+    public ResultData<SceneDto> save(SceneDto dto) {
+        throw new ServiceException("保存业务实体的基类方法禁止使用！");
+    }
+
+    /**
+     * 删除业务实体
+     *
+     * @param id 业务实体Id
+     * @return 操作结果
+     */
+    @Override
+    public ResultData<?> delete(String id) {
+        return super.delete(id);
     }
 
     /**
