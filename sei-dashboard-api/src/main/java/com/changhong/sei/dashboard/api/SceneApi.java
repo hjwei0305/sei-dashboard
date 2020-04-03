@@ -1,5 +1,6 @@
 package com.changhong.sei.dashboard.api;
 
+import com.changhong.sei.core.api.FindAllApi;
 import com.changhong.sei.core.dto.ResultData;
 import com.changhong.sei.dashboard.dto.SceneDto;
 import com.changhong.sei.core.api.BaseEntityApi;
@@ -17,7 +18,7 @@ import javax.validation.Valid;
  */
 @Valid
 @FeignClient(name = "sei-dashboard", path = "scene")
-public interface SceneApi extends BaseEntityApi<SceneDto> {
+public interface SceneApi extends BaseEntityApi<SceneDto>, FindAllApi<SceneDto> {
     /**
      * 通过代码获取一个实例应用场景
      * @param code 代码

@@ -103,7 +103,7 @@ public class WidgetInstanceController extends BaseEntityController<WidgetInstanc
     }
 
     /**
-     * 将数据实体转换成DTO（不含内容属性）
+     * 将数据实体转换成DTO（不含配置信息）
      *
      * @param entity 业务实体
      * @return DTO
