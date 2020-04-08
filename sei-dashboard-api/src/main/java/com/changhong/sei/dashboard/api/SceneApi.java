@@ -70,4 +70,12 @@ public interface SceneApi extends FindAllApi<SceneDto> {
     @GetMapping(path = "findByCode")
     @ApiOperation(value = "通过代码获取一个实例应用场景", notes = "通过场景代码获取一个实例应用场景的配置")
     ResultData<SceneDto> findByCode(@RequestParam("code") String code);
+
+    /**
+     * 获取平台主页应用场景
+     * @return 实例应用场景
+     */
+    @GetMapping(path = "getSceneHome")
+    @ApiOperation(value = "获取平台主页应用场景", notes = "获取被设置为平台主页的应用场景")
+    ResultData<SceneDto> getSceneHome();
 }

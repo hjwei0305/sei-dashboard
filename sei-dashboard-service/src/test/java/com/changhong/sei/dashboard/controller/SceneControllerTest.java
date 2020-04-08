@@ -34,4 +34,11 @@ public class SceneControllerTest extends BaseUnitTest {
         LOG.debug(JsonUtils.toJson(resultData));
         Assert.assertTrue(resultData.successful());
     }
+
+    @Test
+    public void getSceneHome() {
+        ResultData<SceneDto> resultData = controller.getSceneHome();
+        LOG.debug(JsonUtils.toJson(resultData));
+        Assert.assertTrue(resultData.successful());
+    }
 }

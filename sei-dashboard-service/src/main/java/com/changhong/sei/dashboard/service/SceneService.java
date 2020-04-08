@@ -1,5 +1,6 @@
 package com.changhong.sei.dashboard.service;
 
+import com.changhong.sei.core.dto.ResultData;
 import com.changhong.sei.core.service.bo.OperateResultWithData;
 import com.changhong.sei.core.util.JsonUtils;
 import com.changhong.sei.dashboard.dao.WidgetInstanceDao;
@@ -43,6 +44,15 @@ public class SceneService extends BaseEntityService<Scene> {
      */
     public Scene findByCode(String code) {
         return dao.findByCode(code);
+    }
+
+    /**
+     * 获取平台主页应用场景
+     *
+     * @return 实例应用场景
+     */
+    public Scene getSceneHome() {
+        return dao.findByIsHomeTrue();
     }
 
     /**

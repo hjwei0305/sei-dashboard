@@ -109,6 +109,17 @@ public class SceneController extends BaseEntityController<Scene, SceneDto> imple
     }
 
     /**
+     * 获取平台主页应用场景
+     *
+     * @return 实例应用场景
+     */
+    @Override
+    public ResultData<SceneDto> getSceneHome() {
+        SceneDto sceneDto = convertToDto(service.getSceneHome());
+        return getSceneDtoResultData(sceneDto);
+    }
+
+    /**
      * 通过Id获取一个业务实体
      *
      * @param id 业务实体Id
