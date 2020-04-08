@@ -75,7 +75,7 @@ public class SceneService extends BaseEntityService<Scene> {
         // 检查主页是否存在
         if (entity.getHome()) {
             Scene homeScene = dao.findByIsHomeTrue();
-            if (Objects.nonNull(homeScene) && StringUtils.equals(homeScene.getId(), entity.getId())) {
+            if (Objects.nonNull(homeScene) && !StringUtils.equals(homeScene.getId(), entity.getId())) {
                 // 主页场景已经存在，禁止维护多个主页！
                 return OperateResultWithData.operationFailure("00003");
             }
