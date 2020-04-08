@@ -43,6 +43,11 @@ private static final long serialVersionUID = 698265870888385216L;
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "widget_instance_ids")
     private String widgetInstanceIds;
+    /**
+     * 是平台主页
+     */
+    @Column(name = "is_home")
+    private Boolean isHome = Boolean.FALSE;
 
         
     public String getCode() {
@@ -77,4 +82,11 @@ private static final long serialVersionUID = 698265870888385216L;
         this.widgetInstanceIds = widgetInstanceIds;
     }
 
+    public Boolean getHome() {
+        return isHome;
+    }
+
+    public void setHome(Boolean home) {
+        isHome = home;
+    }
 }

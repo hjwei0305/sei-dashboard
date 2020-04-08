@@ -1,5 +1,6 @@
 package com.changhong.sei.dashboard.service;
 
+import com.changhong.sei.core.service.bo.OperateResultWithData;
 import com.changhong.sei.core.util.JsonUtils;
 import com.changhong.sei.dashboard.dao.WidgetInstanceDao;
 import com.changhong.sei.dashboard.dto.SceneDto;
@@ -62,5 +63,23 @@ public class SceneService extends BaseEntityService<Scene> {
             });
         }
         return instances;
+    }
+
+    /**
+     * 数据保存操作
+     *
+     * @param entity 场景
+     */
+    @Override
+    public OperateResultWithData<Scene> save(Scene entity) {
+        // 检查主页是否存在
+        if (entity.getHome()) {
+            Scene homeScene = dao.findByIsHomeTrue();
+            if (Objects.nonNull(homeScene) && StringUtils.equals(homeScene.getId(), entity.getId())) {
+                // 主页场景已经存在，禁止维护多个主页！
+                return OperateResultWithData.operationFailure("00003");
+            }
+        }
+        return super.save(entity);
     }
 }

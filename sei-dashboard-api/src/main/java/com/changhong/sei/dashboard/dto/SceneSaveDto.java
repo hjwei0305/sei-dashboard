@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -32,6 +33,13 @@ public class SceneSaveDto extends BaseEntityDto {
     @Size(max = 50)
     @ApiModelProperty(value = "名称", required = true)
     private String name;
+
+    /**
+     * 是平台主页
+     */
+    @NotNull
+    @ApiModelProperty(value = "是平台主页", required = true)
+    private Boolean isHome = Boolean.FALSE;
         
     public String getCode() {
         return code;
@@ -47,5 +55,13 @@ public class SceneSaveDto extends BaseEntityDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getHome() {
+        return isHome;
+    }
+
+    public void setHome(Boolean home) {
+        isHome = home;
     }
 }

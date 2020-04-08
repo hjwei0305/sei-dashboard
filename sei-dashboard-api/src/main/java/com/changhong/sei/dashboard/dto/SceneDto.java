@@ -66,6 +66,12 @@ private static final long serialVersionUID = -27992274717305368L;
      */
     @ApiModelProperty("组件实例DTO清单")
     private List<WidgetInstanceDto> instanceDtos;
+
+    /**
+     * 是平台主页
+     */
+    @ApiModelProperty(value = "是平台主页", required = true)
+    private Boolean isHome = Boolean.FALSE;
         
     public String getCode() {
         return code;
@@ -121,5 +127,13 @@ private static final long serialVersionUID = -27992274717305368L;
 
     public void setInstanceDtos(List<WidgetInstanceDto> instanceDtos) {
         this.instanceDtos = instanceDtos;
+    }
+
+    public Boolean getHome() {
+        return isHome;
+    }
+
+    public void setHome(Boolean home) {
+        isHome = home;
     }
 }

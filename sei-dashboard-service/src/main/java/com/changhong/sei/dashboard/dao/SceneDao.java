@@ -20,4 +20,10 @@ public interface SceneDao extends BaseEntityDao<Scene> {
      * @return 实例应用场景
      */
     Scene findByCode(String code);
+
+    /**
+     * 获取主页
+     * @return 实例应用场景
+     */
+    Scene findByIsHomeTrue();
 }
