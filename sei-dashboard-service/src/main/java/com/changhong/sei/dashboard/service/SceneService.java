@@ -4,6 +4,7 @@ import com.changhong.sei.core.dto.ResultData;
 import com.changhong.sei.core.service.bo.OperateResultWithData;
 import com.changhong.sei.core.util.JsonUtils;
 import com.changhong.sei.dashboard.dao.WidgetInstanceDao;
+import com.changhong.sei.dashboard.dto.SceneCategory;
 import com.changhong.sei.dashboard.dto.SceneDto;
 import com.changhong.sei.dashboard.entity.Scene;
 import com.changhong.sei.dashboard.dao.SceneDao;
@@ -52,7 +53,7 @@ public class SceneService extends BaseEntityService<Scene> {
      * @return 实例应用场景
      */
     public Scene getSceneHome() {
-        return dao.findByIsHomeTrue();
+        return dao.findHomeScene();
     }
 
     /**
@@ -83,8 +84,8 @@ public class SceneService extends BaseEntityService<Scene> {
     @Override
     public OperateResultWithData<Scene> save(Scene entity) {
         // 检查主页是否存在
-        if (entity.getHome()) {
-            Scene homeScene = dao.findByIsHomeTrue();
+        if (entity.getSceneCategory() == SceneCategory.HOME) {
+            Scene homeScene = dao.findHomeScene();
             if (Objects.nonNull(homeScene) && !StringUtils.equals(homeScene.getId(), entity.getId())) {
                 // 主页场景已经存在，禁止维护多个主页！
                 return OperateResultWithData.operationFailure("00003");

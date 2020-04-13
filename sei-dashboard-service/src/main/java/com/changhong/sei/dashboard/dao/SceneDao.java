@@ -2,6 +2,7 @@ package com.changhong.sei.dashboard.dao;
 
 import com.changhong.sei.dashboard.entity.Scene;
 import com.changhong.sei.core.dao.BaseEntityDao;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,5 +26,6 @@ public interface SceneDao extends BaseEntityDao<Scene> {
      * 获取主页
      * @return 实例应用场景
      */
-    Scene findByIsHomeTrue();
+    @Query("select s from Scene s where s.sceneCategory='HOME' ")
+    Scene findHomeScene();
 }

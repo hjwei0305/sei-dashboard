@@ -1,24 +1,22 @@
 package com.changhong.sei.dashboard.controller;
 
+import com.changhong.sei.core.controller.BaseEntityController;
 import com.changhong.sei.core.dto.ResultData;
+import com.changhong.sei.core.service.BaseEntityService;
 import com.changhong.sei.core.utils.ResultDataUtil;
 import com.changhong.sei.dashboard.api.SceneApi;
-import com.changhong.sei.dashboard.dto.SceneConfigDto;
-import com.changhong.sei.dashboard.dto.SceneDto;
-import com.changhong.sei.dashboard.dto.SceneSaveDto;
-import com.changhong.sei.dashboard.dto.WidgetInstanceDto;
+import com.changhong.sei.dashboard.dto.*;
 import com.changhong.sei.dashboard.entity.Scene;
 import com.changhong.sei.dashboard.entity.WidgetInstance;
 import com.changhong.sei.dashboard.service.SceneService;
-import com.changhong.sei.core.controller.BaseEntityController;
-import com.changhong.sei.core.service.BaseEntityService;
-import com.changhong.sei.exception.ServiceException;
+import com.changhong.sei.util.EnumUtils;
+import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import io.swagger.annotations.Api;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -117,6 +115,16 @@ public class SceneController extends BaseEntityController<Scene, SceneDto> imple
     public ResultData<SceneDto> getSceneHome() {
         SceneDto sceneDto = convertToDto(service.getSceneHome());
         return getSceneDtoResultData(sceneDto);
+    }
+
+    /**
+     * 获取场景分类枚举清单
+     *
+     * @return 枚举清单
+     */
+    @Override
+    public ResultData<List<EnumUtils.EnumEntity>> getSceneCategoryEnum() {
+        return ResultDataUtil.getEnumEntities(SceneCategory.class);
     }
 
     /**

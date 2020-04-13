@@ -4,14 +4,15 @@ import com.changhong.sei.core.api.FindAllApi;
 import com.changhong.sei.core.dto.ResultData;
 import com.changhong.sei.dashboard.dto.SceneConfigDto;
 import com.changhong.sei.dashboard.dto.SceneDto;
-import com.changhong.sei.core.api.BaseEntityApi;
 import com.changhong.sei.dashboard.dto.SceneSaveDto;
+import com.changhong.sei.util.EnumUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 实例应用场景(Scene)API
@@ -78,4 +79,12 @@ public interface SceneApi extends FindAllApi<SceneDto> {
     @GetMapping(path = "getSceneHome")
     @ApiOperation(value = "获取平台主页应用场景", notes = "获取被设置为平台主页的应用场景")
     ResultData<SceneDto> getSceneHome();
+
+    /**
+     * 获取场景分类枚举清单
+     * @return 枚举清单
+     */
+    @GetMapping(path = "getSceneCategoryEnum")
+    @ApiOperation(value = "获取平台主页应用场景", notes = "获取被设置为平台主页的应用场景")
+    ResultData<List<EnumUtils.EnumEntity>> getSceneCategoryEnum();
 }

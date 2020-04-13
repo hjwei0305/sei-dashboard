@@ -1,6 +1,9 @@
 package com.changhong.sei.dashboard.entity;
 
+import com.changhong.sei.core.dto.serializer.EnumJsonSerializer;
 import com.changhong.sei.core.entity.BaseAuditableEntity;
+import com.changhong.sei.dashboard.dto.SceneCategory;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -44,11 +47,12 @@ private static final long serialVersionUID = 698265870888385216L;
     @Column(name = "widget_instance_ids")
     private String widgetInstanceIds;
     /**
-     * 是平台主页
+     * 场景分类
      */
-    @Column(name = "is_home")
-    private Boolean isHome = Boolean.FALSE;
-
+    @Enumerated(EnumType.STRING)
+    @JsonSerialize(using = EnumJsonSerializer.class)
+    @Column(name = "scene_category", nullable = false)
+    private SceneCategory sceneCategory = SceneCategory.DASHBOARD;
         
     public String getCode() {
         return code;
@@ -82,11 +86,11 @@ private static final long serialVersionUID = 698265870888385216L;
         this.widgetInstanceIds = widgetInstanceIds;
     }
 
-    public Boolean getHome() {
-        return isHome;
+    public SceneCategory getSceneCategory() {
+        return sceneCategory;
     }
 
-    public void setHome(Boolean home) {
-        isHome = home;
+    public void setSceneCategory(SceneCategory sceneCategory) {
+        this.sceneCategory = sceneCategory;
     }
 }

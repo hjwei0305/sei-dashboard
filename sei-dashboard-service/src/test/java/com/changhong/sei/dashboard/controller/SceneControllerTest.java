@@ -4,9 +4,12 @@ import com.changhong.sei.core.dto.ResultData;
 import com.changhong.sei.core.test.BaseUnitTest;
 import com.changhong.sei.core.util.JsonUtils;
 import com.changhong.sei.dashboard.dto.SceneDto;
+import com.changhong.sei.util.EnumUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * 实例应用场景(Scene)单元测试类
@@ -38,6 +41,13 @@ public class SceneControllerTest extends BaseUnitTest {
     @Test
     public void getSceneHome() {
         ResultData<SceneDto> resultData = controller.getSceneHome();
+        LOG.debug(JsonUtils.toJson(resultData));
+        Assert.assertTrue(resultData.successful());
+    }
+
+    @Test
+    public void getSceneCategoryEnum() {
+        ResultData<List<EnumUtils.EnumEntity>> resultData = controller.getSceneCategoryEnum();
         LOG.debug(JsonUtils.toJson(resultData));
         Assert.assertTrue(resultData.successful());
     }
