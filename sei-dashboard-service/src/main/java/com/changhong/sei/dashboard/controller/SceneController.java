@@ -45,7 +45,7 @@ public class SceneController extends BaseEntityController<Scene, SceneDto> imple
     }
 
     /**
-     * 保存业务实体
+     * 保存场景的基础信息
      *
      * @param dto 业务实体DTO
      * @return 操作结果
@@ -56,6 +56,13 @@ public class SceneController extends BaseEntityController<Scene, SceneDto> imple
         SceneDto sceneDto = getModelMapper().map(dto, SceneDto.class);
         sceneDto.setConfig("");
         sceneDto.setWidgetInstanceIds("");
+        // 获取一个场景
+        Scene scene = service.findOne(dto.getId());
+        if (Objects.nonNull(scene)) {
+            // 恢复配置信息！
+            sceneDto.setConfig(scene.getConfig());
+            sceneDto.setWidgetInstanceIds(scene.getWidgetInstanceIds());
+        }
         ResultData<SceneDto> saveResult = super.save(sceneDto);
         if (saveResult.failed()) {
             return ResultData.fail(saveResult.getMessage());
