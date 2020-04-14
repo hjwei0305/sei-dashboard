@@ -85,6 +85,6 @@ public interface SceneApi extends FindAllApi<SceneDto> {
      * @return 枚举清单
      */
     @GetMapping(path = "getSceneCategoryEnum")
-    @ApiOperation(value = "获取平台主页应用场景", notes = "获取被设置为平台主页的应用场景")
+    @ApiOperation(value = "获取场景分类枚举清单", notes = "获取应用场景分类枚举的实体清单")
     ResultData<List<EnumUtils.EnumEntity>> getSceneCategoryEnum();
 }
