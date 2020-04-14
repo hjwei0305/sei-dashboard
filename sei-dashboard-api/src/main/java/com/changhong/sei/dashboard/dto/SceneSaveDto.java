@@ -1,6 +1,8 @@
 package com.changhong.sei.dashboard.dto;
 
 import com.changhong.sei.core.dto.BaseEntityDto;
+import com.changhong.sei.core.dto.serializer.EnumJsonSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -35,11 +37,12 @@ public class SceneSaveDto extends BaseEntityDto {
     private String name;
 
     /**
-     * 是平台主页
+     * 场景分类
      */
     @NotNull
-    @ApiModelProperty(value = "是平台主页", required = true)
-    private Boolean isHome = Boolean.FALSE;
+    @JsonSerialize(using = EnumJsonSerializer.class)
+    @ApiModelProperty(value = "场景分类", required = true)
+    private SceneCategory sceneCategory = SceneCategory.DASHBOARD;
         
     public String getCode() {
         return code;
@@ -57,11 +60,11 @@ public class SceneSaveDto extends BaseEntityDto {
         this.name = name;
     }
 
-    public Boolean getHome() {
-        return isHome;
+    public SceneCategory getSceneCategory() {
+        return sceneCategory;
     }
 
-    public void setHome(Boolean home) {
-        isHome = home;
+    public void setSceneCategory(SceneCategory sceneCategory) {
+        this.sceneCategory = sceneCategory;
     }
 }
