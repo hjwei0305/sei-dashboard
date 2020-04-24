@@ -3,7 +3,9 @@ package com.changhong.sei.dashboard.controller;
 import com.changhong.sei.core.dto.ResultData;
 import com.changhong.sei.core.test.BaseUnitTest;
 import com.changhong.sei.core.util.JsonUtils;
+import com.changhong.sei.dashboard.dto.SceneCategory;
 import com.changhong.sei.dashboard.dto.SceneDto;
+import com.changhong.sei.dashboard.dto.SceneSaveDto;
 import com.changhong.sei.util.EnumUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -48,6 +50,17 @@ public class SceneControllerTest extends BaseUnitTest {
     @Test
     public void getSceneCategoryEnum() {
         ResultData<List<EnumUtils.EnumEntity>> resultData = controller.getSceneCategoryEnum();
+        LOG.debug(JsonUtils.toJson(resultData));
+        Assert.assertTrue(resultData.successful());
+    }
+
+    @Test
+    public void saveScene() {
+        SceneSaveDto saveDto = new SceneSaveDto();
+        saveDto.setSceneCategory(SceneCategory.DASHBOARD);
+        saveDto.setCode("m3ie42");
+        saveDto.setName("测试图表");
+        ResultData<SceneSaveDto> resultData = controller.saveScene(saveDto);
         LOG.debug(JsonUtils.toJson(resultData));
         Assert.assertTrue(resultData.successful());
     }

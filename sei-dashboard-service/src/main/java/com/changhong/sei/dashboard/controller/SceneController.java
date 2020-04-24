@@ -11,6 +11,7 @@ import com.changhong.sei.dashboard.entity.WidgetInstance;
 import com.changhong.sei.dashboard.service.SceneService;
 import com.changhong.sei.util.EnumUtils;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,12 +57,14 @@ public class SceneController extends BaseEntityController<Scene, SceneDto> imple
         SceneDto sceneDto = getModelMapper().map(dto, SceneDto.class);
         sceneDto.setConfig("");
         sceneDto.setWidgetInstanceIds("");
-        // 获取一个场景
-        Scene scene = service.findOne(dto.getId());
-        if (Objects.nonNull(scene)) {
+        if (StringUtils.isNotBlank(dto.getId())) {
+            // 获取一个场景
+            Scene scene = service.findOne(dto.getId());
             // 恢复配置信息！
-            sceneDto.setConfig(scene.getConfig());
-            sceneDto.setWidgetInstanceIds(scene.getWidgetInstanceIds());
+            if (Objects.nonNull(scene)) {
+                sceneDto.setConfig(scene.getConfig());
+                sceneDto.setWidgetInstanceIds(scene.getWidgetInstanceIds());
+            }
         }
         ResultData<SceneDto> saveResult = super.save(sceneDto);
         if (saveResult.failed()) {
