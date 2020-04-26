@@ -1,5 +1,6 @@
 package com.changhong.sei.dashboard.entity;
 
+import com.changhong.sei.core.dto.IRank;
 import com.changhong.sei.core.dto.serializer.EnumJsonSerializer;
 import com.changhong.sei.core.entity.BaseAuditableEntity;
 import com.changhong.sei.dashboard.dto.SceneCategory;
@@ -20,8 +21,7 @@ import java.io.Serializable;
 @Table(name = "scene")
 @DynamicInsert
 @DynamicUpdate
-public class Scene extends BaseAuditableEntity implements Serializable {
-private static final long serialVersionUID = 698265870888385216L;
+public class Scene extends BaseAuditableEntity implements IRank {
     /**
      * 代码
      */
@@ -53,7 +53,12 @@ private static final long serialVersionUID = 698265870888385216L;
     @JsonSerialize(using = EnumJsonSerializer.class)
     @Column(name = "scene_category", nullable = false)
     private SceneCategory sceneCategory = SceneCategory.DASHBOARD;
-        
+    /**
+     * 排序号
+     */
+    @Column(name = "rank")
+    private Integer rank = 0;
+
     public String getCode() {
         return code;
     }
@@ -92,5 +97,14 @@ private static final long serialVersionUID = 698265870888385216L;
 
     public void setSceneCategory(SceneCategory sceneCategory) {
         this.sceneCategory = sceneCategory;
+    }
+
+    @Override
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
     }
 }

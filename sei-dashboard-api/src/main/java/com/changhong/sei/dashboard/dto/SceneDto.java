@@ -75,6 +75,12 @@ private static final long serialVersionUID = -27992274717305368L;
     @JsonSerialize(using = EnumJsonSerializer.class)
     @ApiModelProperty(value = "场景分类")
     private SceneCategory sceneCategory = SceneCategory.DASHBOARD;
+
+    /**
+     * 排序号
+     */
+    @ApiModelProperty(value = "排序号")
+    private Integer rank = 0;
         
     public String getCode() {
         return code;
@@ -138,5 +144,13 @@ private static final long serialVersionUID = -27992274717305368L;
 
     public void setSceneCategory(SceneCategory sceneCategory) {
         this.sceneCategory = sceneCategory;
+    }
+
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
     }
 }

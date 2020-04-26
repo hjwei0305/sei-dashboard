@@ -1,6 +1,7 @@
 package com.changhong.sei.dashboard.controller;
 
 import com.changhong.sei.core.dto.ResultData;
+import com.changhong.sei.core.entity.BaseAuditableEntity;
 import com.changhong.sei.dashboard.api.WidgetInstanceApi;
 import com.changhong.sei.dashboard.dto.WidgetInstanceDto;
 import com.changhong.sei.dashboard.dto.WidgetInstanceTree;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import io.swagger.annotations.Api;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -104,6 +106,9 @@ public class WidgetInstanceController extends BaseEntityController<WidgetInstanc
     @Override
     public ResultData<List<WidgetInstanceDto>> getByWidgetGroup(String widgetGroupId) {
         List<WidgetInstance> instances = service.getByWidgetGroup(widgetGroupId);
+        // 按创建时间降序排序
+        Comparator<WidgetInstance> comparator = Comparator.comparing(BaseAuditableEntity::getCreatedDate);
+        instances = instances.stream().sorted(comparator.reversed()).collect(Collectors.toList());
         List<WidgetInstanceDto> data = instances.stream().map(this::convertToDtoWithoutContent).collect(Collectors.toList());
         return ResultData.success(data);
     }
@@ -128,6 +133,9 @@ public class WidgetInstanceController extends BaseEntityController<WidgetInstanc
             root.setChildren(children);
             // 获取分组下的实例
             List<WidgetInstance> instances = service.getByWidgetGroup(g.getId());
+            // 按创建时间降序排序
+            Comparator<WidgetInstance> comparator = Comparator.comparing(BaseAuditableEntity::getCreatedDate);
+            instances = instances.stream().sorted(comparator.reversed()).collect(Collectors.toList());
             instances.forEach(i-> {
                 WidgetInstanceTree node = new WidgetInstanceTree();
                 node.setId(i.getId());

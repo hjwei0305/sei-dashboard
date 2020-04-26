@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * 组件实例(WidgetInstance)DTO类
@@ -93,6 +94,12 @@ private static final long serialVersionUID = -75529789008922660L;
      */
     @ApiModelProperty("实例分组名称")
     private String widgetGroupName;
+
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty("创建时间")
+    private Date createdDate;
 
     public String getName() {
         return name;
@@ -188,5 +195,13 @@ private static final long serialVersionUID = -75529789008922660L;
 
     public void setWidgetGroupName(String widgetGroupName) {
         this.widgetGroupName = widgetGroupName;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }

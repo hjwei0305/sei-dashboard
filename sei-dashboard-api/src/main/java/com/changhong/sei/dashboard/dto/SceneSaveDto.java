@@ -43,7 +43,14 @@ public class SceneSaveDto extends BaseEntityDto {
     @JsonSerialize(using = EnumJsonSerializer.class)
     @ApiModelProperty(value = "场景分类", required = true)
     private SceneCategory sceneCategory = SceneCategory.DASHBOARD;
-        
+
+    /**
+     * 排序号
+     */
+    @NotNull
+    @ApiModelProperty(value = "排序号", required = true)
+    private Integer rank = 0;
+
     public String getCode() {
         return code;
     }
@@ -66,5 +73,13 @@ public class SceneSaveDto extends BaseEntityDto {
 
     public void setSceneCategory(SceneCategory sceneCategory) {
         this.sceneCategory = sceneCategory;
+    }
+
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
     }
 }

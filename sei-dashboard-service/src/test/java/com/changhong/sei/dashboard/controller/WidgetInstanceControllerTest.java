@@ -39,7 +39,7 @@ public class WidgetInstanceControllerTest extends BaseUnitTest {
 
     @Test
     public void getByWidgetGroup() {
-        String widgetGroupId = "7D89006F-73FA-11EA-A4D9-0242C0A84611";
+        String widgetGroupId = "82D60557-8757-11EA-831C-0242C0A84611";
         ResultData<List<WidgetInstanceDto>> resultData = controller.getByWidgetGroup(widgetGroupId);
         LOG.debug(JsonUtils.toJson(resultData));
         Assert.assertTrue(resultData.successful());
