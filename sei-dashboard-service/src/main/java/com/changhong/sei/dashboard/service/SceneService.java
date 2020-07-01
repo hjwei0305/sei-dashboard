@@ -107,4 +107,12 @@ public class SceneService extends BaseEntityService<Scene> {
         }
         return super.save(entity);
     }
+
+    /**
+     * 基于主键集合查询集合数据对象
+     */
+    @Override
+    public List<Scene> findAll() {
+        return super.findAll();
+    }
 }
