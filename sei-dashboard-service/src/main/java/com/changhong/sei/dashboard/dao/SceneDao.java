@@ -26,6 +26,13 @@ public interface SceneDao extends BaseEntityDao<Scene> {
      * 获取主页
      * @return 实例应用场景
      */
-    @Query("select s from Scene s where s.sceneCategory='HOME' ")
+    @Query("select s from Scene s where s.sceneCategory='HOME' and s.userId is null ")
     Scene findHomeScene();
+
+    /**
+     * 获取个人主页
+     * @return 实例应用场景
+     */
+    @Query("select s from Scene s where s.sceneCategory='HOME' and s.userId=?1 ")
+    Scene findUserHomeScene(String userId);
 }

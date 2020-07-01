@@ -1,13 +1,16 @@
 package com.changhong.sei.dashboard.service;
 
+import com.changhong.sei.core.context.ContextUtil;
 import com.changhong.sei.core.dao.BaseEntityDao;
 import com.changhong.sei.core.service.BaseEntityService;
 import com.changhong.sei.dashboard.dao.WidgetInstanceDao;
 import com.changhong.sei.dashboard.entity.WidgetInstance;
+import com.changhong.sei.enums.UserAuthorityPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -43,6 +46,11 @@ public class WidgetInstanceService extends BaseEntityService<WidgetInstance> {
      * @return 实例清单
      */
     public List<WidgetInstance> getByWidgetGroup(String widgetGroupId) {
-        return dao.findByWidgetGroupId(widgetGroupId);
+        List<WidgetInstance> instances = dao.findByWidgetGroupId(widgetGroupId);
+        // 判断是否为一般用户, 只返回个人可用的实例
+        if (ContextUtil.getSessionUser().getAuthorityPolicy() == UserAuthorityPolicy.NormalUser) {
+            return instances.stream().filter(WidgetInstance::getPersonalUse).collect(Collectors.toList());
+        }
+        return instances;
     }
 }

@@ -63,6 +63,11 @@ public class WidgetInstance extends BaseAuditableEntity implements Serializable 
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "render_config")
     private String renderConfig;
+    /**
+     * 个人可用
+     */
+    @Column(name = "personal_use")
+    private Boolean personalUse;
 
     public String getName() {
         return name;
@@ -128,4 +133,11 @@ public class WidgetInstance extends BaseAuditableEntity implements Serializable 
         this.renderConfig = renderConfig;
     }
 
+    public Boolean getPersonalUse() {
+        return personalUse;
+    }
+
+    public void setPersonalUse(Boolean personalUse) {
+        this.personalUse = personalUse;
+    }
 }

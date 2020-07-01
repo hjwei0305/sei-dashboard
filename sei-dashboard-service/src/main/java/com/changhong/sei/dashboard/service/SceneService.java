@@ -1,5 +1,6 @@
 package com.changhong.sei.dashboard.service;
 
+import com.changhong.sei.core.context.ContextUtil;
 import com.changhong.sei.core.dto.ResultData;
 import com.changhong.sei.core.service.bo.OperateResultWithData;
 import com.changhong.sei.core.util.JsonUtils;
@@ -11,6 +12,7 @@ import com.changhong.sei.dashboard.dao.SceneDao;
 import com.changhong.sei.core.dao.BaseEntityDao;
 import com.changhong.sei.core.service.BaseEntityService;
 import com.changhong.sei.dashboard.entity.WidgetInstance;
+import com.changhong.sei.enums.UserAuthorityPolicy;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,6 +55,14 @@ public class SceneService extends BaseEntityService<Scene> {
      * @return 实例应用场景
      */
     public Scene getSceneHome() {
+        // 判断是否为一般用户
+        Scene scene;
+        if (ContextUtil.getSessionUser().getAuthorityPolicy()== UserAuthorityPolicy.NormalUser) {
+            scene = dao.findUserHomeScene(ContextUtil.getUserId());
+            if (Objects.nonNull(scene)) {
+                return scene;
+            }
+        }
         return dao.findHomeScene();
     }
 
@@ -85,10 +95,14 @@ public class SceneService extends BaseEntityService<Scene> {
     public OperateResultWithData<Scene> save(Scene entity) {
         // 检查主页是否存在
         if (entity.getSceneCategory() == SceneCategory.HOME) {
-            Scene homeScene = dao.findHomeScene();
+            Scene homeScene = getSceneHome();
             if (Objects.nonNull(homeScene) && !StringUtils.equals(homeScene.getId(), entity.getId())) {
                 // 主页场景已经存在，禁止维护多个主页！
                 return OperateResultWithData.operationFailure("00003");
+            }
+            // 如果是一般用户，需要保存用户Id
+            if (ContextUtil.getSessionUser().getAuthorityPolicy()== UserAuthorityPolicy.NormalUser) {
+                entity.setUserId(ContextUtil.getUserId());
             }
         }
         return super.save(entity);

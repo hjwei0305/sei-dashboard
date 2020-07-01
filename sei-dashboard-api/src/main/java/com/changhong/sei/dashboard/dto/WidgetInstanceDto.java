@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -58,6 +59,12 @@ private static final long serialVersionUID = -75529789008922660L;
     @NotBlank
     @ApiModelProperty(value = "渲染属性配置", required = true)
     private String renderConfig;
+    /**
+     * 个人可用
+     */
+    @NotNull
+    @ApiModelProperty(value = "个人可用", required = true)
+    private Boolean personalUse;
 
     /**
      * 组件类型代码
@@ -147,6 +154,14 @@ private static final long serialVersionUID = -75529789008922660L;
 
     public void setRenderConfig(String renderConfig) {
         this.renderConfig = renderConfig;
+    }
+
+    public Boolean getPersonalUse() {
+        return personalUse;
+    }
+
+    public void setPersonalUse(Boolean personalUse) {
+        this.personalUse = personalUse;
     }
 
     public String getWidgetTypeCode() {

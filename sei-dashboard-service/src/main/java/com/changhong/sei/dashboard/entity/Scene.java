@@ -22,6 +22,7 @@ import java.io.Serializable;
 @DynamicInsert
 @DynamicUpdate
 public class Scene extends BaseAuditableEntity implements IRank {
+    private static final long serialVersionUID = -6989286249163373723L;
     /**
      * 代码
      */
@@ -58,6 +59,11 @@ public class Scene extends BaseAuditableEntity implements IRank {
      */
     @Column(name = "rank")
     private Integer rank = 0;
+    /**
+     * 用户Id
+     */
+    @Column(name = "user_id")
+    private String userId;
 
     public String getCode() {
         return code;
@@ -106,5 +112,13 @@ public class Scene extends BaseAuditableEntity implements IRank {
 
     public void setRank(Integer rank) {
         this.rank = rank;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
