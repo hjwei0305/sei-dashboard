@@ -102,7 +102,14 @@ public class SceneService extends BaseEntityService<Scene> {
             }
             // 如果是一般用户，需要保存用户Id
             if (ContextUtil.getSessionUser().getAuthorityPolicy()== UserAuthorityPolicy.NormalUser) {
-                entity.setUserId(ContextUtil.getUserId());
+                // 判断是否为自己的主页，如果不是则需要新建一个
+                if (StringUtils.isBlank(entity.getUserId())) {
+                    String userId = ContextUtil.getUserId();
+                    entity.setId(null);
+                    entity.setCode(userId);
+                    entity.setName("个人主页");
+                    entity.setUserId(userId);
+                }
             }
         }
         return super.save(entity);
