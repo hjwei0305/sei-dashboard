@@ -104,11 +104,14 @@ public class SceneService extends BaseEntityService<Scene> {
             if (ContextUtil.getSessionUser().getAuthorityPolicy()== UserAuthorityPolicy.NormalUser) {
                 // 判断是否为自己的主页，如果不是则需要新建一个
                 if (StringUtils.isBlank(entity.getUserId())) {
+                    // 克隆一个业务实体
+                    Scene userHome = JsonUtils.cloneByJson(entity);
                     String userId = ContextUtil.getUserId();
-                    entity.setId(null);
-                    entity.setCode(userId);
-                    entity.setName("个人主页");
-                    entity.setUserId(userId);
+                    userHome.setId(null);
+                    userHome.setCode(userId);
+                    userHome.setName("个人主页");
+                    userHome.setUserId(userId);
+                    return super.save(userHome);
                 }
             }
         }
