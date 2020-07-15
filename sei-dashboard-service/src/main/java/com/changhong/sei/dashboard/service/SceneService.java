@@ -100,7 +100,7 @@ public class SceneService extends BaseEntityService<Scene> {
             // 如果是一般用户，需要保存用户Id
             if (ContextUtil.getSessionUser().getAuthorityPolicy()== UserAuthorityPolicy.NormalUser) {
                 // 判断是否已经存在个人主页，如果存在则更新，不存在则创建一个
-                if (StringUtils.isBlank(homeScene.getUserId())) {
+                if (StringUtils.isNotBlank(homeScene.getUserId())) {
                     homeScene.setWidgetInstanceIds(entity.getWidgetInstanceIds());
                     homeScene.setConfig(entity.getConfig());
                     return super.save(homeScene);
