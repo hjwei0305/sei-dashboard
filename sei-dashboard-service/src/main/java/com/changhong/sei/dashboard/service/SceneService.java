@@ -95,11 +95,6 @@ public class SceneService extends BaseEntityService<Scene> {
     public OperateResultWithData<Scene> save(Scene entity) {
         // 检查主页是否存在
         if (entity.getSceneCategory() == SceneCategory.HOME) {
-            Scene homeScene = getSceneHome();
-            if (Objects.nonNull(homeScene) && !StringUtils.equals(homeScene.getId(), entity.getId())) {
-                // 主页场景已经存在，禁止维护多个主页！
-                return OperateResultWithData.operationFailure("00003");
-            }
             // 如果是一般用户，需要保存用户Id
             if (ContextUtil.getSessionUser().getAuthorityPolicy()== UserAuthorityPolicy.NormalUser) {
                 // 判断是否为自己的主页，如果不是则需要新建一个
@@ -112,6 +107,12 @@ public class SceneService extends BaseEntityService<Scene> {
                     userHome.setName("个人主页");
                     userHome.setUserId(userId);
                     return super.save(userHome);
+                }
+            } else {
+                Scene homeScene = getSceneHome();
+                if (Objects.nonNull(homeScene) && !StringUtils.equals(homeScene.getId(), entity.getId())) {
+                    // 主页场景已经存在，禁止维护多个主页！
+                    return OperateResultWithData.operationFailure("00003");
                 }
             }
         }
