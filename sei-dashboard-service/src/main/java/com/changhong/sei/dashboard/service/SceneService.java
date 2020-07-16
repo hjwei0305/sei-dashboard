@@ -1,16 +1,16 @@
 package com.changhong.sei.dashboard.service;
 
 import com.changhong.sei.core.context.ContextUtil;
-import com.changhong.sei.core.dto.ResultData;
-import com.changhong.sei.core.service.bo.OperateResultWithData;
-import com.changhong.sei.core.util.JsonUtils;
-import com.changhong.sei.dashboard.dao.WidgetInstanceDao;
-import com.changhong.sei.dashboard.dto.SceneCategory;
-import com.changhong.sei.dashboard.dto.SceneDto;
-import com.changhong.sei.dashboard.entity.Scene;
-import com.changhong.sei.dashboard.dao.SceneDao;
 import com.changhong.sei.core.dao.BaseEntityDao;
 import com.changhong.sei.core.service.BaseEntityService;
+import com.changhong.sei.core.service.bo.OperateResultWithData;
+import com.changhong.sei.core.util.JsonUtils;
+import com.changhong.sei.dashboard.dao.SceneDao;
+import com.changhong.sei.dashboard.dao.WidgetInstanceDao;
+import com.changhong.sei.dashboard.dto.SceneCategory;
+import com.changhong.sei.dashboard.dto.SceneConfigDto;
+import com.changhong.sei.dashboard.dto.SceneDto;
+import com.changhong.sei.dashboard.entity.Scene;
 import com.changhong.sei.dashboard.entity.WidgetInstance;
 import com.changhong.sei.enums.UserAuthorityPolicy;
 import org.apache.commons.lang3.StringUtils;
@@ -87,41 +87,52 @@ public class SceneService extends BaseEntityService<Scene> {
     }
 
     /**
-     * 数据保存操作
+     * 数据保存操作(保存全局场景配置)
      *
      * @param entity 场景
      */
     @Override
     public OperateResultWithData<Scene> save(Scene entity) {
+        // 禁止直接维护个人主页
+        if (StringUtils.isNotBlank(entity.getUserId())) {
+            // 禁止在全局场景中维护个人主页！
+            return OperateResultWithData.operationFailure("00004");
+        }
         // 检查主页是否存在
         if (entity.getSceneCategory() == SceneCategory.HOME) {
-            // 获取个人主页
-            Scene homeScene = getSceneHome();
-            // 如果是一般用户，需要保存用户Id
-            if (ContextUtil.getSessionUser().getAuthorityPolicy()== UserAuthorityPolicy.NormalUser) {
-                // 判断是否已经存在个人主页，如果存在则更新，不存在则创建一个
-                if (StringUtils.isNotBlank(homeScene.getUserId())) {
-                    homeScene.setWidgetInstanceIds(entity.getWidgetInstanceIds());
-                    homeScene.setConfig(entity.getConfig());
-                    return super.save(homeScene);
-                } else {
-                    // 克隆一个业务实体
-                    Scene userHome = JsonUtils.cloneByJson(entity);
-                    String userId = ContextUtil.getUserId();
-                    userHome.setId(null);
-                    userHome.setCode(userId);
-                    userHome.setName("个人主页");
-                    userHome.setUserId(userId);
-                    return super.save(userHome);
-                }
-            } else {
-                if (Objects.nonNull(homeScene) && !StringUtils.equals(homeScene.getId(), entity.getId())) {
-                    // 主页场景已经存在，禁止维护多个主页！
-                    return OperateResultWithData.operationFailure("00003");
-                }
+            // 获取全局首页
+            Scene homeScene = dao.findHomeScene();
+            if (Objects.nonNull(homeScene) && !StringUtils.equals(homeScene.getId(), entity.getId())) {
+                // 主页场景已经存在，禁止维护多个主页！
+                return OperateResultWithData.operationFailure("00003");
             }
         }
         return super.save(entity);
+    }
+
+    /**
+     * 保存个人主页
+     *
+     * @param dto 场景配置DTO
+     * @return 操作结果
+     */
+    public OperateResultWithData<Scene> saveUserHome(SceneConfigDto dto) {
+        String userId = ContextUtil.getUserId();
+        // 获取个人主页
+        Scene homeScene = dao.findUserHomeScene(userId);
+        // 判断是否已经存在当前用户的个人主页
+        if (StringUtils.isNotBlank(homeScene.getUserId())) {
+            // 保存配置
+            homeScene.setWidgetInstanceIds(dto.getWidgetInstanceIds());
+            homeScene.setConfig(dto.getConfig());
+            return super.save(homeScene);
+        }
+        // 创建一个个人主页
+        Scene userHome = new Scene();
+        userHome.setCode(userId);
+        userHome.setName("个人主页");
+        userHome.setUserId(userId);
+        return super.save(userHome);
     }
 
     /**

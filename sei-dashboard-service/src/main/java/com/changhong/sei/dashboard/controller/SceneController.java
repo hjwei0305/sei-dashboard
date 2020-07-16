@@ -94,6 +94,17 @@ public class SceneController extends BaseEntityController<Scene, SceneDto> imple
     }
 
     /**
+     * 保存个人主页
+     *
+     * @param dto 场景配置DTO
+     * @return 操作结果
+     */
+    @Override
+    public ResultData<?> saveUserHome(@Valid SceneConfigDto dto) {
+        return ResultDataUtil.convertFromOperateResult(service.saveUserHome(dto), null);
+    }
+
+    /**
      * 删除业务实体
      *
      * @param id 业务实体Id

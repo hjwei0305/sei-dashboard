@@ -44,6 +44,16 @@ public interface SceneApi extends FindAllApi<SceneDto> {
     ResultData<?> saveConfig(@RequestBody @Valid SceneConfigDto dto);
 
     /**
+     * 保存个人主页
+     *
+     * @param dto 场景配置DTO
+     * @return 操作结果
+     */
+    @PostMapping(path = "saveUserHome", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "保存个人主页", notes = "保存个人主页，场景类型必须是主页，传入场景配置")
+    ResultData<?> saveUserHome(@RequestBody @Valid SceneConfigDto dto);
+
+    /**
      * 删除业务实体
      *
      * @param id 业务实体Id
