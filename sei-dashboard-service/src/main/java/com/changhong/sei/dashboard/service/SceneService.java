@@ -133,6 +133,8 @@ public class SceneService extends BaseEntityService<Scene> {
         userHome.setCode(userId);
         userHome.setName("个人主页");
         userHome.setUserId(userId);
+        userHome.setWidgetInstanceIds(dto.getWidgetInstanceIds());
+        userHome.setConfig(dto.getConfig());
         return super.save(userHome);
     }
 
