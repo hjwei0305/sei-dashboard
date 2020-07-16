@@ -121,7 +121,7 @@ public class SceneService extends BaseEntityService<Scene> {
         // 获取个人主页
         Scene homeScene = dao.findUserHomeScene(userId);
         // 判断是否已经存在当前用户的个人主页
-        if (StringUtils.isNotBlank(homeScene.getUserId())) {
+        if (Objects.nonNull(homeScene)) {
             // 保存配置
             homeScene.setWidgetInstanceIds(dto.getWidgetInstanceIds());
             homeScene.setConfig(dto.getConfig());
