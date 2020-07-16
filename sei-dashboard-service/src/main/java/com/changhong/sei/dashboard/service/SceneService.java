@@ -129,6 +129,7 @@ public class SceneService extends BaseEntityService<Scene> {
         }
         // 创建一个个人主页
         Scene userHome = new Scene();
+        userHome.setSceneCategory(SceneCategory.HOME);
         userHome.setCode(userId);
         userHome.setName("个人主页");
         userHome.setUserId(userId);
