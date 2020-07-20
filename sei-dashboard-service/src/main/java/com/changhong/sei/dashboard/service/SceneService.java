@@ -42,6 +42,7 @@ public class SceneService extends BaseEntityService<Scene> {
 
     /**
      * 通过代码获取一个实例应用场景
+     *
      * @param code 代码
      * @return 实例应用场景
      */
@@ -55,19 +56,16 @@ public class SceneService extends BaseEntityService<Scene> {
      * @return 实例应用场景
      */
     public Scene getSceneHome() {
-        // 判断是否为一般用户
-        Scene scene;
-        if (ContextUtil.getSessionUser().getAuthorityPolicy()== UserAuthorityPolicy.NormalUser) {
-            scene = dao.findUserHomeScene(ContextUtil.getUserId());
-            if (Objects.nonNull(scene)) {
-                return scene;
-            }
+        Scene scene = dao.findUserHomeScene(ContextUtil.getUserId());
+        if (Objects.nonNull(scene)) {
+            return scene;
         }
         return dao.findHomeScene();
     }
 
     /**
      * 通过场景获取使用的实例清单
+     *
      * @param sceneDto 场景DTO
      * @return 实例清单
      */
@@ -76,7 +74,7 @@ public class SceneService extends BaseEntityService<Scene> {
         if (StringUtils.isNotBlank(sceneDto.getWidgetInstanceIds())) {
             String json = sceneDto.getWidgetInstanceIds();
             List<String> instanceIds = JsonUtils.fromJson2List(json, String.class);
-            instanceIds.forEach( id-> {
+            instanceIds.forEach(id -> {
                 WidgetInstance instance = widgetInstanceDao.findOne(id);
                 if (Objects.nonNull(instance)) {
                     instances.add(instance);
