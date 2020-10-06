@@ -25,6 +25,13 @@ public class SceneControllerTest extends BaseUnitTest {
     private SceneController controller;
 
     @Test
+    public void findAll() {
+        ResultData<List<SceneDto>> resultData = controller.findAll();
+        LOG.debug(JsonUtils.toJson(resultData));
+        Assert.assertTrue(resultData.successful());
+    }
+
+    @Test
     public void findByCode() {
         String code = "";
         ResultData<SceneDto> resultData = controller.findByCode(code);
@@ -34,7 +41,7 @@ public class SceneControllerTest extends BaseUnitTest {
 
     @Test
     public void findOne() {
-        String id = "C137FB6E-757B-11EA-A285-0242C0A84611";
+        String id = "BF91E708-B900-11EA-9E96-0242C0A8460F";
         ResultData<SceneDto> resultData = controller.findOne(id);
         LOG.debug(JsonUtils.toJson(resultData));
         Assert.assertTrue(resultData.successful());

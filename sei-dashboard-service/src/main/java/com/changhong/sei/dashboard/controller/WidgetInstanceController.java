@@ -1,7 +1,9 @@
 package com.changhong.sei.dashboard.controller;
 
+import com.changhong.sei.core.controller.BaseEntityController;
 import com.changhong.sei.core.dto.ResultData;
 import com.changhong.sei.core.entity.BaseAuditableEntity;
+import com.changhong.sei.core.service.BaseEntityService;
 import com.changhong.sei.dashboard.api.WidgetInstanceApi;
 import com.changhong.sei.dashboard.dto.WidgetInstanceDto;
 import com.changhong.sei.dashboard.dto.WidgetInstanceTree;
@@ -9,14 +11,13 @@ import com.changhong.sei.dashboard.entity.WidgetGroup;
 import com.changhong.sei.dashboard.entity.WidgetInstance;
 import com.changhong.sei.dashboard.service.WidgetGroupService;
 import com.changhong.sei.dashboard.service.WidgetInstanceService;
-import com.changhong.sei.core.controller.BaseEntityController;
-import com.changhong.sei.core.service.BaseEntityService;
+import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import io.swagger.annotations.Api;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -42,20 +43,44 @@ public class WidgetInstanceController extends BaseEntityController<WidgetInstanc
     private WidgetInstanceService service;
     @Autowired
     private WidgetGroupService widgetGroupService;
+    private static final ModelMapper findAllDtoMapper;
+    static {
+        findAllDtoMapper = new ModelMapper();
+        // 创建自定义映射规则
+        PropertyMap<WidgetInstance, WidgetInstanceDto> propertyMap = new PropertyMap<WidgetInstance, WidgetInstanceDto>() {
+            @Override
+            protected void configure() {
+                // 自定义转换规则
+                map().setWidgetTypeId(source.getWidgetTypeId());
+                map().setWidgetGroupId(source.getWidgetGroupId());
+                // 不转换配置属性
+                skip(destination.getRenderConfig());
+            }
+        };
+        findAllDtoMapper.addMappings(propertyMap);
+    }
 
     @Override
     public BaseEntityService<WidgetInstance> getService() {
         return service;
     }
+
     /**
-     * 将数据实体转换成DTO
-     *
-     * @param entity 业务实体
-     * @return DTO
+     * 自定义设置Entity转换为DTO的转换器
      */
     @Override
-    public WidgetInstanceDto convertToDto(WidgetInstance entity) {
-        return WidgetInstanceController.custConvertToDto(entity);
+    protected void customConvertToDtoMapper() {
+        // 创建自定义映射规则
+        PropertyMap<WidgetInstance, WidgetInstanceDto> propertyMap = new PropertyMap<WidgetInstance, WidgetInstanceDto>() {
+            @Override
+            protected void configure() {
+                // 自定义转换规则
+                map().setWidgetTypeId(source.getWidgetTypeId());
+                map().setWidgetGroupId(source.getWidgetGroupId());
+            }
+        };
+        // 添加映射器
+        dtoModelMapper.addMappings(propertyMap);
     }
 
     /**
@@ -68,20 +93,8 @@ public class WidgetInstanceController extends BaseEntityController<WidgetInstanc
         if (Objects.isNull(entity)){
             return null;
         }
-        ModelMapper custMapper = new ModelMapper();
-        // 创建自定义映射规则
-        PropertyMap<WidgetInstance, WidgetInstanceDto> propertyMap = new PropertyMap<WidgetInstance, WidgetInstanceDto>() {
-            @Override
-            protected void configure() {
-                // 自定义转换规则
-                map().setWidgetTypeId(source.getWidgetTypeId());
-                map().setWidgetGroupId(source.getWidgetGroupId());
-            }
-        };
-        // 添加映射器
-        custMapper.addMappings(propertyMap);
         // 转换
-        return custMapper.map(entity, WidgetInstanceDto.class);
+        return dtoModelMapper.map(entity, WidgetInstanceDto.class);
     }
 
     /**
@@ -161,18 +174,6 @@ public class WidgetInstanceController extends BaseEntityController<WidgetInstanc
         if (Objects.isNull(entity)) {
             return null;
         }
-        ModelMapper mapper = getModelMapper();
-        // 创建自定义映射规则
-        PropertyMap<WidgetInstance, WidgetInstanceDto> propertyMap = new PropertyMap<WidgetInstance, WidgetInstanceDto>() {
-            @Override
-            protected void configure() {
-                // 自定义转换规则
-                map().setWidgetTypeId(source.getWidgetTypeId());
-                map().setWidgetGroupId(source.getWidgetGroupId());
-                skip(destination.getRenderConfig());
-            }
-        };
-        mapper.addMappings(propertyMap);
-        return mapper.map(entity, WidgetInstanceDto.class);
+        return findAllDtoMapper.map(entity, WidgetInstanceDto.class);
     }
 }

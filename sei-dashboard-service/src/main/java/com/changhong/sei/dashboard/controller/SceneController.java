@@ -33,12 +33,27 @@ import java.util.stream.Collectors;
 @RestController
 @Api(value = "SceneApi", tags = "实例应用场景服务")
 @RequestMapping(path = "scene", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class SceneController extends BaseEntityController<Scene, SceneDto> implements SceneApi {
+public class SceneController extends BaseEntityController<Scene, SceneDto>
+        implements SceneApi {
     /**
      * 实例应用场景服务对象
      */
     @Autowired
     private SceneService service;
+    private static final ModelMapper findAllDtoMapper;
+    static {
+        findAllDtoMapper = new ModelMapper();
+        // 创建自定义映射规则
+        PropertyMap<Scene, SceneDto> propertyMap = new PropertyMap<Scene, SceneDto>() {
+            @Override
+            protected void configure() {
+                // 自定义转换规则
+                skip(destination.getConfig());
+                skip(destination.getWidgetInstanceIds());
+            }
+        };
+        findAllDtoMapper.addMappings(propertyMap);
+    }
 
     @Override
     public BaseEntityService<Scene> getService() {
@@ -54,7 +69,7 @@ public class SceneController extends BaseEntityController<Scene, SceneDto> imple
     @Override
     public ResultData<SceneSaveDto> saveScene(@Valid SceneSaveDto dto) {
         // 转换为DTO
-        SceneDto sceneDto = getModelMapper().map(dto, SceneDto.class);
+        SceneDto sceneDto = dtoModelMapper.map(dto, SceneDto.class);
         sceneDto.setConfig("");
         sceneDto.setWidgetInstanceIds("");
         if (StringUtils.isNotBlank(dto.getId())) {
@@ -70,7 +85,7 @@ public class SceneController extends BaseEntityController<Scene, SceneDto> imple
         if (saveResult.failed()) {
             return ResultData.fail(saveResult.getMessage());
         }
-        SceneSaveDto saveDto = getModelMapper().map(saveResult.getData(), SceneSaveDto.class);
+        SceneSaveDto saveDto = dtoModelMapper.map(saveResult.getData(), SceneSaveDto.class);
         return ResultData.success(saveDto);
     }
 
@@ -185,18 +200,7 @@ public class SceneController extends BaseEntityController<Scene, SceneDto> imple
         if (Objects.isNull(entity)) {
             return null;
         }
-        ModelMapper mapper = getModelMapper();
-        // 创建自定义映射规则
-        PropertyMap<Scene, SceneDto> propertyMap = new PropertyMap<Scene, SceneDto>() {
-            @Override
-            protected void configure() {
-                // 自定义转换规则
-                skip(destination.getConfig());
-                skip(destination.getWidgetInstanceIds());
-            }
-        };
-        mapper.addMappings(propertyMap);
-        return mapper.map(entity, SceneDto.class);
+        return findAllDtoMapper.map(entity, SceneDto.class);
     }
 
     /**
