@@ -36,14 +36,12 @@ public class Scene extends BaseAuditableEntity implements IRank {
     /**
      * 场景配置
      */
-    @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "config")
     private String config;
     /**
      * 组件实例Id清单
      */
-    @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "widget_instance_ids")
     private String widgetInstanceIds;

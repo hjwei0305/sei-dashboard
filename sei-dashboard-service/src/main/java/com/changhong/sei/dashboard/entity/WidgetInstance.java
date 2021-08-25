@@ -59,7 +59,6 @@ public class WidgetInstance extends BaseAuditableEntity implements Serializable 
     /**
      * 渲染属性配置
      */
-    @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "render_config")
     private String renderConfig;
